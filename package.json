@@ -2,9 +2,9 @@
   "name": "vue3-lazyload",
   "version": "0.3.8",
   "packageManager": "pnpm@6.32.3",
-  "description": "A Vue3.x image lazyload plugin",
+  "description": "test",
   "license": "MIT",
-  "author": "木荣 <admin@imuboy.cn>",
+  "author": "test",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/murongg/vue3-lazyload.git"
