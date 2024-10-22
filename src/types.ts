@@ -6,6 +6,7 @@ export interface LazyOptions {
   logLevel?: 'error' | 'warn' | 'info' | 'debug' | 'log'
   lifecycle?: Lifecycle
   delay?: number
+  attempt: number
 }
 
 export interface ValueFormatterObject {

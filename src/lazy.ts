@@ -21,6 +21,8 @@ const TIMEOUT_ID_DATA_ATTR = 'data-lazy-timeout-id'
  * @class Lazy
  */
 export default class Lazy {
+  private attempt = 0;
+
   public options: LazyOptions = {
     loading: DEFAULT_LOADING,
     error: DEFAULT_ERROR,
@@ -28,6 +30,7 @@ export default class Lazy {
     log: true,
     lifecycle: {},
     logLevel: 'error',
+    attempt: 3,
   }
 
   private _images: WeakMap<HTMLElement, IntersectionObserver> = new WeakMap()
@@ -122,19 +125,27 @@ export default class Lazy {
           el.setAttribute('src', src)
       }
       this._listenImageStatus(el as HTMLImageElement, () => {
+        this.attempt = 0;
         this._lifecycle(LifecycleEnum.LOADED, lifecycle, el)
       }, () => {
-        // Fix onload trigger twice, clear onload event
-        // Reload on update
-        el.onload = null
-        this._lifecycle(LifecycleEnum.ERROR, lifecycle, el)
-        this._realObserver(el)?.disconnect()
-        if (error) {
-          const newImageSrc = el.getAttribute('src')
-          if (newImageSrc !== error)
-            el.setAttribute('src', error)
+        // 如果当前重试次数低于配置次数，则重试
+        if (this.attempt < this.options.attempt) {
+          this.attempt += 1;
+          const retrySrc = `${src}?retry=${this.attempt}`; 
+          el.setAttribute('src', retrySrc); 
+          this._log(() => { this._logger(`加载失败，重试: ${src}; attempt: ${this.attempt}`) })
+        } else {
+          el.onload = null
+          this._lifecycle(LifecycleEnum.ERROR, lifecycle, el)
+          this._realObserver(el)?.disconnect()
+          if (error) {
+            const newImageSrc = el.getAttribute('src')
+            if (newImageSrc !== error)
+              el.setAttribute('src', error)
+          }
+          this._log(() => { this._logger(`Image failed to load!And failed src was: ${src} `) })
+          this.attempt = 0;
         }
-        this._log(() => { this._logger(`Image failed to load!And failed src was: ${src} `) })
       })
     }
     else {
