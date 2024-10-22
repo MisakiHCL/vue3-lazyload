@@ -142,7 +142,8 @@ class Lazy {
       }, () => {
         if (this.attempt < this.options.attempt) {
           this.attempt += 1;
-          const retrySrc = `${src}?retry=${this.attempt}`;
+          const separator = src.includes("?") ? "&" : "?";
+          const retrySrc = `${src}${separator}retry=${this.attempt}`;
           el.setAttribute("src", retrySrc);
           this._log(() => {
             this._logger(`\u52A0\u8F7D\u5931\u8D25\uFF0C\u91CD\u8BD5: ${src}; attempt: ${this.attempt}`);
