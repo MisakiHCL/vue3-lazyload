@@ -134,7 +134,7 @@ export default class Lazy {
           const separator = src.includes('?') ? '&' : '?'
           const retrySrc = `${src}${separator}retry=${this.attempt}`
           el.setAttribute('src', retrySrc)
-          this._log(() => { this._logger(`加载失败，重试: ${src}; attempt: ${this.attempt}`) })
+          this._log(() => { this._logger(`加载失败，重试: ${retrySrc}; attempt: ${this.attempt}`) })
         }
         else {
           el.onload = null
