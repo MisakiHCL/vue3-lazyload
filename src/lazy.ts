@@ -131,10 +131,8 @@ export default class Lazy {
         // 如果当前重试次数低于配置次数，则重试
         if (this.options.attempt && this.attempt < this.options.attempt) {
           this.attempt += 1
-          const separator = src.includes('?') ? '&' : '?'
-          const retrySrc = `${src}${separator}retry=${this.attempt}`
-          el.setAttribute('src', retrySrc)
-          this._log(() => { this._logger(`加载失败，重试: ${retrySrc}; attempt: ${this.attempt}`) })
+          el.setAttribute('src', src)
+          this._log(() => { this._logger(`加载失败，重试: ${src}; attempt: ${this.attempt}`) })
         }
         else {
           el.onload = null

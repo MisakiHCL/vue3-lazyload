@@ -136,11 +136,9 @@ class Lazy {
         this.attempt = 0;
         this._lifecycle(LifecycleEnum.LOADED, lifecycle, el);
       }, () => {
-        if (this.attempt < this.options.attempt) {
+        if (this.options.attempt && this.attempt < this.options.attempt) {
           this.attempt += 1;
-          const separator = src.includes("?") ? "&" : "?";
-          const retrySrc = `${src}${separator}retry=${this.attempt}`;
-          el.setAttribute("src", retrySrc);
+          el.setAttribute("src", src);
           this._log(() => {
             this._logger(`\u52A0\u8F7D\u5931\u8D25\uFF0C\u91CD\u8BD5: ${src}; attempt: ${this.attempt}`);
           });
