@@ -144,7 +144,7 @@ class Lazy {
           this.attempt += 1;
           el.setAttribute("src", src);
           this._log(() => {
-            this._logger(`\u52A0\u8F7D\u5931\u8D25\uFF0C\u91CD\u8BD5: ${src}; attempt: ${this.attempt}`);
+            this._logger(`load failed, retry: ${src}; attempt: ${this.attempt}`);
           });
         } else {
           el.onload = null;

@@ -132,7 +132,7 @@ export default class Lazy {
         if (this.options.attempt && this.attempt < this.options.attempt) {
           this.attempt += 1
           el.setAttribute('src', src)
-          this._log(() => { this._logger(`加载失败，重试: ${src}; attempt: ${this.attempt}`) })
+          this._log(() => { this._logger(`load failed, retry: ${src}; attempt: ${this.attempt}`) })
         }
         else {
           el.onload = null
