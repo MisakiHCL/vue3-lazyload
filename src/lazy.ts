@@ -129,7 +129,7 @@ export default class Lazy {
         this._lifecycle(LifecycleEnum.LOADED, lifecycle, el)
       }, () => {
         // 如果当前重试次数低于配置次数，则重试
-        if (this.attempt < this.options.attempt) {
+        if (this.options.attempt && this.attempt < this.options.attempt) {
           this.attempt += 1
           const separator = src.includes('?') ? '&' : '?'
           const retrySrc = `${src}${separator}retry=${this.attempt}`
